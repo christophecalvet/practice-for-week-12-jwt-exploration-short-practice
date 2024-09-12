@@ -4,6 +4,7 @@ require('dotenv').config();
 // Import package
 
 // Your code here
+const jwt = require('jsonwebtoken');
 
 // Define variables - DO NOT MODIFY
 
@@ -11,6 +12,11 @@ require('dotenv').config();
 let token; // DO NOT MODIFY! Re-assign the token variable below.
 
 // Your code here
+token = jwt.sign(
+    { email: "johnny@gmail.com" }, // payload object
+    process.env.SECRET_KEY,        // secret token from .env file
+    { expiresIn: '2h' }            // options (example: Token expires in 1 hour)
+);
 
 // See the JWT in the console - DO NOT MODIFY
 console.log('JWT:', token);
@@ -20,6 +26,7 @@ console.log('JWT:', token);
 let payload; // DO NOT MODIFY! Re-assign the payload variable below.
 
 // Your code here
+payload = jwt.decode(token);
 
 // See the decoded payload in the console - DO NOT MODIFY
 console.log('Payload:', payload);
@@ -29,6 +36,12 @@ console.log('Payload:', payload);
 let verifiedPayload; // DO NOT MODIFY! Re-assign the verifiedPayload variable below.
 
 // Your code here
+const secret = process.env.SECRET_KEY; //Needed to asign correct value to secret
+verifiedPayload = jwt.verify(token, secret );
+// if the secret is verified, the payload is decoded and returned
+// if the secret is not valid, a JsonWebTokenError is thrown
+// if the token is expired, a TokenExpiredError is thrown
+
 
 // See the verified payload in the console - DO NOT MODIFY
 console.log('Verified Payload:', verifiedPayload);
